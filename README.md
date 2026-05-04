@@ -399,9 +399,3 @@ rm -rf scholar-request
 ## 👨‍💻 פיתוח
 
 פרויקט גמר — קורס Full Stack React + Node.js
-
----
-
-<div align="center">
-Made with ❤️ and ☕
-</div>
