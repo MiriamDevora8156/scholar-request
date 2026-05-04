@@ -1,0 +1,21 @@
+/* הגדרת הפונט בכל האתר */
+* {
+    font-family: 'Berlin Sans FB', Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+/* הגדרת הפונט בשדות הקלט */
+input,
+textarea,
+select {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+/* גם עבור טקסט במודלים או כפתורים */
+button {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+input:focus {
+    border-color: black;
+    /* צבע המסגרת כשיש פוקוס */
+}
