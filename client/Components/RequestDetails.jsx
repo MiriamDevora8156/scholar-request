@@ -3,12 +3,14 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { updateRequestInList } from "../Redux/requestSlice";
 import { Button, Box, Typography, Divider, Paper, Grid, CircularProgress, Stack } from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
-import PersonIcon from '@mui/icons-material/Person';
-import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
-import SchoolIcon from '@mui/icons-material/School';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import {
+    CheckCircle as CheckCircleIcon,
+    Cancel as CancelIcon,
+    Person as PersonIcon,
+    FamilyRestroom as FamilyRestroomIcon,
+    School as SchoolIcon,
+    AccountBalance as AccountBalanceIcon,
+} from '@mui/icons-material';
 import swal from 'sweetalert';
 import API from "../api";
 
@@ -53,7 +55,7 @@ export const RequestDetails = () => {
     if (!request) return <Typography variant="h6" textAlign="center" mt={10}>הבקשה לא נמצאה</Typography>;
 
     const InfoRow = ({ label, value }) => (
-        <Grid item xs={12} sm={6}>
+        <Grid xs={12} sm={6}>
             <Typography variant="body2" color="text.secondary">{label}</Typography>
             <Typography variant="body1" fontWeight="500">{value || 'לא צוין'}</Typography>
         </Grid>
@@ -118,7 +120,7 @@ export const RequestDetails = () => {
                     <InfoRow label="Number of Children" value={request.family.numChildren} />
                     <InfoRow label="Children Over 18" value={request.family.numOver} />
                     {request.family.siblings?.length > 0 && (
-                        <Grid item xs={12}>
+                        <Grid xs={12}>
                             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>Siblings</Typography>
                             {request.family.siblings.map((s, i) => (
                                 <Typography key={i} variant="body2">

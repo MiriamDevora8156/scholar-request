@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { sendStatusEmail } from '../services/emailService.js';
 import { registerSchema, loginSchema } from '../validations/authValidation.js';
 
-// הרשמה!!!!
+// הרשמה
 export const register = async (req, res) => {
     const { error } = registerSchema.validate(req.body);
     if (error) {
@@ -19,13 +19,14 @@ export const register = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const userCount = await User.countDocuments();
         const newUser = new User({
             username,
             id: id,
             name: name,
             password: hashedPassword,
             email: email,
-            role: id === '040802001' ? 'admin' : 'student'
+            role: userCount === 0 ? 'admin' : 'student'
         });
 
         await newUser.save();
@@ -36,7 +37,7 @@ export const register = async (req, res) => {
     }
 };
 
-// כניסה!!!!!!!!!!!!!
+// כניסה
 export const login = async (req, res) => {
     const { error } = loginSchema.validate(req.body);
     if (error) return res.status(400).json({ message: error.details[0].message });

@@ -86,7 +86,8 @@ export const Enter = () => {
                         variant="outlined"
                         fullWidth
                         margin="normal"
-                        onBlur={(e) => setUser({ ...user, username: e.target.value })}
+                        value={user.username || ''} 
+                        onChange={(e) => setUser({ ...user, username: e.target.value })}
                         sx={inputStyle}
                     />
                     <TextField
@@ -95,7 +96,8 @@ export const Enter = () => {
                         type="password"
                         fullWidth
                         margin="normal"
-                        onBlur={(e) => setUser({ ...user, password: e.target.value })}
+                        value={user.password || ''} 
+                        onChange={(e) => setUser({ ...user, password: e.target.value })}
                         sx={inputStyle}
                     />
 

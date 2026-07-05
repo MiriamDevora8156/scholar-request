@@ -164,11 +164,11 @@ export const Home = () => {
                     <Grid container spacing={4} sx={{ alignItems: "stretch" }}>
                         {services.map((service, index) => (
                             // md={3} אומר: תפוס 3 יחידות מתוך 12. כלומר 4 אלמנטים בשורה (3*4=12)
-                            <Grid item xs={12} md={2} key={index} sx={{ display: 'flex' }}>
+                            <Grid size={{ xs: 12, md: 3 }} key={index} sx={{ display: 'flex' }}>
                                 <Paper elevation={3} sx={{
                                     padding: 4,
                                     textAlign: 'center',
-                                    width: '150px',
+                                    width: '100%',
                                     height: '80%', // מבטיח גובה אחיד
                                     display: 'flex',
                                     flexDirection: 'column',
@@ -195,7 +195,7 @@ export const Home = () => {
                     </Typography>
                     <Grid container spacing={4} sx={{ marginTop: 2, justifyContent: "center" }}>
                         {stats.map((stat) => (
-                            <Grid item xs={12} sm={6} md={3} key={stat.id}>
+                            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={stat.id}>
                                 <Stack sx={{ alignItems: "center" }} spacing={1}>
                                     <Box sx={{ color: '#388E3C' }}>{stat.icon}</Box>
                                     <Typography variant="h3" fontWeight="bold" color="text.primary">
@@ -220,13 +220,13 @@ export const Home = () => {
                     </Typography>
                     <Grid container spacing={3} sx={{ marginTop: 1 }}>
                         {testimonials.map((t) => (
-                            <Grid item xs={12} md={4} key={t.id}>
+                            <Grid size={{ xs: 12, md: 4 }} key={t.id}>
                                 <Paper sx={{
                                     padding: 3,
                                     backgroundColor: '#fff',
                                     borderTop: '4px solid #388E3C',
                                     height: '90%',
-                                    width: '260px',
+                                    width: '80%',
                                     display: 'flex',
                                     flexDirection: 'column',
                                     justifyContent: 'space-between'
@@ -252,15 +252,15 @@ export const Home = () => {
             {/* 6. Footer */}
             <Box sx={{ backgroundColor: "#1b5e20", color: "white", padding: 6, marginTop: 0 }}>
                 <Container maxWidth="lg">
-                    <Grid container spacing={4}>
-                        <Grid item xs={12} md={4}>
+                    <Grid container spacing={3} sx={{ justifyContent: "space-around", marginLeft: 8, marginRight: 22 }}>
+                        <Grid size={{ xs: 12, md: 4 }}>
                             <Typography variant="h5" fontWeight="bold" gutterBottom>ScholarRequest</Typography>
                             <Typography variant="body2" sx={{ opacity: 0.8 }}>
                                 Empowering students to reach their full potential through financial aid and support.
                             </Typography>
                         </Grid>
 
-                        <Grid item xs={12} md={4}>
+                        <Grid xs={12} md={4}>
                             <Typography variant="h6" fontWeight="bold" gutterBottom>Contact Us</Typography>
                             <Stack spacing={2}>
                                 <Box display="flex" sx={{ alignItems: "center" }} gap={2}>
@@ -275,7 +275,7 @@ export const Home = () => {
                             </Stack>
                         </Grid>
 
-                        <Grid item xs={12} md={4}>
+                        <Grid xs={12} md={4}>
                             <Typography variant="h6" fontWeight="bold" gutterBottom>Visit Us</Typography>
                             <Stack spacing={2}>
                                 <Box display="flex" sx={{ alignItems: "center" }} gap={2}>
@@ -290,7 +290,7 @@ export const Home = () => {
                     </Grid>
                     <Divider sx={{ backgroundColor: "rgba(255,255,255,0.2)", marginY: 4 }} />
                     <Typography variant="body2" align="center" sx={{ opacity: 0.6 }}>
-                        © 2025 ScholarRequest. All rights reserved.
+                        © 2026 ScholarRequest. All rights reserved.
                     </Typography>
                 </Container>
             </Box>

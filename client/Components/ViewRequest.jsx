@@ -78,7 +78,7 @@ export const ViewRequest = () => {
                         <TextField fullWidth label="City" size="small" value={filters.city}
                             onChange={(e) => dispatch(setFilters({ ...filters, city: e.target.value }))} sx={inputStyle} />
                     </Grid>
-                    <Grid item xs={12} sm={2}>
+                    <Grid xs={12} sm={2}>
                         <TextField
                             fullWidth label="Min Tuition Fee" size="small" type="number"
                             value={filters.minSalary}

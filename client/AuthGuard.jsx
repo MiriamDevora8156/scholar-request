@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setCurrent, setAuthChecked } from "./Redux/userSlice"; // ודאי שזה השם של ה-action שלך
+import { setCurrent, setAuthChecked } from "./Redux/userSlice";
 import API from "./api";
 
 export const AuthGuard = ({ children }) => {

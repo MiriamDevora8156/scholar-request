@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-// כתובת ה-URI של מונגו מקומי (בד"כ הפורט הוא 27017)
 // 'grant_system' הוא שם מסד הנתונים שייווצר עבור הפרויקט
 const mongoURI = 'mongodb://localhost:27017/grant_system';
 

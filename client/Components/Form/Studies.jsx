@@ -90,7 +90,7 @@ export const Studies = (props) => {
             </Box>
 
             <Grid container spacing={3}>
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <TextField
                         label="Institution Name"
                         defaultValue={temp?.institution}
@@ -102,7 +102,7 @@ export const Studies = (props) => {
                         sx={inputStyle}
                     />
                 </Grid>
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <FormControl fullWidth variant="outlined" sx={inputStyle}>
                         <InputLabel>Trend / Major</InputLabel>
                         <Select
@@ -134,7 +134,7 @@ export const Studies = (props) => {
                     </FormControl>
                 </Grid>
 
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <TextField
                         label="Annual Tuition Fee"
                         defaultValue={temp && temp.payment}
@@ -148,7 +148,7 @@ export const Studies = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <TextField
                         label="Year of Study (e.g. 1, 2, 3)"
                         defaultValue={temp && temp.years}
@@ -162,7 +162,7 @@ export const Studies = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <Typography variant="body2" sx={{ mb: 1, fontWeight: 'bold' }}>
                         Tuition Confirmation (PDF/Image) *
                     </Typography>

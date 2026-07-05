@@ -2,10 +2,12 @@ import { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Box, Grid, Typography, TextField, Button, Stack, Container, Paper } from "@mui/material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { useSave } from "./useSave"
 import { personal as per } from "../../Redux/requestSlice"
 import { nameValid, numberValid, fileValid } from "./Validation"
 import PersonIcon from '@mui/icons-material/Person'; // אייקון לכותרת
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 const AddressAutocomplete = ({ defaultValue, onSelect, error, inputStyle }) => {
     const [query, setQuery] = useState(defaultValue || '');
@@ -193,7 +195,7 @@ export const PersonalDetails = (props) => {
 
             <Grid container spacing={3} sx={{ width: '100%' }}>
                 {/* שורה 1: תעודת זהות ושם פרטי (לקריאה בלבד) */}
-                <Grid item xs={12} sm={6} sx={{ width: '100%' }}>
+                <Grid xs={12} sm={6} sx={{ width: '100%' }}>
                     <TextField
                         label="ID Number"
                         value={(user && user.id) || ''}
@@ -208,7 +210,7 @@ export const PersonalDetails = (props) => {
                         }}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} sx={{ width: '100%' }}>
+                <Grid xs={12} sm={6} sx={{ width: '100%' }}>
                     <TextField
                         label="First Name"
                         value={(user && user.name) || ''}
@@ -223,7 +225,7 @@ export const PersonalDetails = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={6} sx={{ width: '100%' }}>
+                <Grid xs={12} sm={6} sx={{ width: '100%' }}>
                     <TextField
                         label="Last Name"
                         value={details.lastName || ''}
@@ -238,7 +240,7 @@ export const PersonalDetails = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={6} sx={{ width: '100%' }}>
+                <Grid xs={12} sm={6} sx={{ width: '100%' }}>
                     <TextField
                         label="Birth Date"
                         defaultValue={(temp && temp.birthDate) || ''}
@@ -256,7 +258,7 @@ export const PersonalDetails = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <AddressAutocomplete
                         defaultValue={temp?.address || ''}
                         onSelect={(addr) => {
@@ -266,9 +268,20 @@ export const PersonalDetails = (props) => {
                         error={errors.address}
                         inputStyle={inputStyle}
                     />
+                    <Stack
+                        direction="row"
+                        spacing={0.5}
+                        alignItems="center"
+                        sx={{ mt: 0.5, color: '#666', px: 0.5 }}
+                    >
+                        <AutoAwesomeIcon sx={{ fontSize: '0.9rem', color: '#388E3C' }} />
+                        <Typography variant="caption" sx={{ fontStyle: 'italic' }}>
+                            Start typing your address and the smart system will help you complete it
+                        </Typography>
+                    </Stack>
                 </Grid>
 
-                <Grid item xs={12} sm={6} sx={{ width: '100%' }}>
+                <Grid xs={12} sm={6} sx={{ width: '100%' }}>
                     <TextField
                         label="Phone Number"
                         defaultValue={(temp && temp.phone) || ''}
@@ -281,7 +294,7 @@ export const PersonalDetails = (props) => {
                         sx={inputStyle}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} sx={{ width: '100%' }}>
+                <Grid xs={12} sm={6} sx={{ width: '100%' }}>
                     <TextField
                         label="Zip Code"
                         defaultValue={temp?.zipCode || ''}
@@ -291,18 +304,19 @@ export const PersonalDetails = (props) => {
                         sx={inputStyle}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+                <Grid xs={12} sm={6} sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
                     <Button
                         variant="text"
                         size="small"
+                        startIcon={<TravelExploreIcon />}
                         onClick={() => window.open('https://doar.israelpost.co.il/locatezip', '_blank')}
                         sx={{ color: '#388E3C', textTransform: 'none', fontSize: '0.85rem' }}
                     >
-                        🔍 Find your Zip Code (Israel Post)
+                        Find your Zip Code (Israel Post)
                     </Button>
                 </Grid>
 
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <Typography variant="body2" sx={{ mb: 1, fontWeight: 'bold' }}>
                         Attach ID Card (Photo/PDF) *
                     </Typography>

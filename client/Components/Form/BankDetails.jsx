@@ -91,7 +91,7 @@ export const BankDetails = (props) => {
             </Box>
 
             <Grid container spacing={3} sx={{ width: '100%' }}>
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <TextField
                         label="Account Holder Name"
                         defaultValue={temp && temp.accountName}
@@ -104,7 +104,7 @@ export const BankDetails = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <TextField
                         label="Account Holder ID"
                         defaultValue={temp && temp.accountId}
@@ -117,7 +117,7 @@ export const BankDetails = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <FormControl fullWidth variant="outlined" error={!!errors.bank} sx={inputStyle}>
                         <InputLabel id="bank-select-label">Bank Name</InputLabel>
                         <Select
@@ -139,7 +139,7 @@ export const BankDetails = (props) => {
                     </FormControl>
                 </Grid>
 
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <TextField
                         label="Branch Number"
                         defaultValue={temp && temp.branch}
@@ -152,7 +152,7 @@ export const BankDetails = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <TextField
                         label="Account Number"
                         defaultValue={temp && temp.number}
@@ -165,7 +165,7 @@ export const BankDetails = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <Typography variant="body2" sx={{ mb: 1, fontWeight: 'bold' }}>
                         Bank Account Confirmation (PDF/Image) *
                     </Typography>

@@ -11,36 +11,10 @@ import {
     saveDraftText,
 } from '../controllers/requestController.js';
 import { adminOnly, protect } from '../middleware/authMiddleware.js';
-import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
+import { cpUpload } from '../middleware/uploadMiddleware.js';
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const isDraft = req.originalUrl.includes('/draft');
-        const subDir = isDraft ? 'draft' : 'final';
-        const userDir = `uploads/${req.user._id}/${subDir}`;
-        if (!fs.existsSync(userDir)) {
-            fs.mkdirSync(userDir, { recursive: true });
-        }
-        cb(null, userDir);
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-    }
-});
-
-const upload = multer({ storage: storage });
 const router = express.Router();
 
-const cpUpload = upload.fields([
-    { name: 'idCardFile', maxCount: 1 },
-    { name: 'tuitionFile', maxCount: 1 },
-    { name: 'bankConfirmationFile', maxCount: 1 },
-    { name: 'fatherSlip', maxCount: 1 },
-    { name: 'motherSlip', maxCount: 1 },
-    { name: 'studentSlip', maxCount: 1 }
-]);
 
 /**
  * @swagger
@@ -159,6 +133,7 @@ router.get('/my-status', protect, getMyStatus);
  *         description: בקשה לא נמצאה
  */
 router.put('/update/:id', protect, adminOnly, updateRequestStatus);
+
 router.put('/appeal/:id', protect, appealRequest);
 
 /**
@@ -211,6 +186,7 @@ router.get('/get/:id', protect, getRequestById);
  *         description: לא מורשה - חסר טוקן
  */
 router.post('/draft', protect, cpUpload, saveDraft);
+
 router.post('/draft-text', protect, saveDraftText);
 
 /**
@@ -224,7 +200,5 @@ router.post('/draft-text', protect, saveDraftText);
  *         description: טיוטה אחרונה
  */
 router.get('/my-draft', protect, getMyDraft);
-
-// router.get('/try' , getDraft)
 
 export default router;

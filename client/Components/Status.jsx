@@ -113,7 +113,7 @@ export const Status = () => {
                                 )}
                             </Box>
                         )
-                        : !userCurrent._id
+                        : !userCurrent?._id
                             ? (
                                 <Box sx={{ marginTop: 4 }}>
                                     <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>

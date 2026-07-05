@@ -112,7 +112,7 @@ export const FamilyDetails = (props) => {
             </Box>
 
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={4} sx={{ width: '100%' }}>
+                <Grid xs={12} sm={4} sx={{ width: '100%' }}>
                     <TextField
                         label="Father's First Name"
                         defaultValue={temp?.fatherFirstName}
@@ -126,7 +126,7 @@ export const FamilyDetails = (props) => {
                         helperText={errors.fatherFirstName}
                     />
                 </Grid>
-                <Grid item xs={12} sm={4} sx={{ width: '100%' }}>
+                <Grid xs={12} sm={4} sx={{ width: '100%' }}>
                     <TextField
                         label="Father's Last Name"
                         defaultValue={temp?.fatherLastName}
@@ -140,7 +140,7 @@ export const FamilyDetails = (props) => {
                         helperText={errors.fatherLastName}
                     />
                 </Grid>
-                <Grid item xs={12} sm={4} sx={{ width: '100%' }}>
+                <Grid xs={12} sm={4} sx={{ width: '100%' }}>
                     <TextField
                         label="Father's ID"
                         defaultValue={temp?.fatherId}
@@ -155,7 +155,7 @@ export const FamilyDetails = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={4} sx={{ width: '100%' }}>
+                <Grid xs={12} sm={4} sx={{ width: '100%' }}>
                     <TextField
                         label="Mother's First Name"
                         defaultValue={temp?.motherFirstName}
@@ -169,7 +169,7 @@ export const FamilyDetails = (props) => {
                         helperText={errors.motherFirstName}
                     />
                 </Grid>
-                <Grid item xs={12} sm={4} sx={{ width: '100%' }}>
+                <Grid xs={12} sm={4} sx={{ width: '100%' }}>
                     <TextField
                         label="Mother's Last Name"
                         defaultValue={temp?.motherLastName}
@@ -183,7 +183,7 @@ export const FamilyDetails = (props) => {
                         helperText={errors.motherLastName}
                     />
                 </Grid>
-                <Grid item xs={12} sm={4} sx={{ width: '100%' }}>
+                <Grid xs={12} sm={4} sx={{ width: '100%' }}>
                     <TextField
                         label="Mother's ID"
                         defaultValue={temp?.motherId}
@@ -198,7 +198,7 @@ export const FamilyDetails = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <TextField
                         label="Number of Children"
                         defaultValue={temp && temp.numChildren}
@@ -212,7 +212,7 @@ export const FamilyDetails = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12} sx={{ width: '100%' }}>
+                <Grid xs={12} sx={{ width: '100%' }}>
                     <TextField
                         label="Children Over 18"
                         defaultValue={temp && temp.numOver}
@@ -226,7 +226,7 @@ export const FamilyDetails = (props) => {
                     />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid xs={12}>
                     <Typography variant="h6" sx={{ mb: 2, mt: 1, fontWeight: 'bold' }}>
                         Parents Income Slips (Required) *
                     </Typography>
@@ -238,7 +238,7 @@ export const FamilyDetails = (props) => {
                                 ? temp[`${member}Slip`]
                                 : null;
                             return (
-                                <Grid item xs={12} md={6} key={member}>
+                                <Grid xs={12} md={6} key={member}>
                                     <Stack spacing={1}>
                                         <Button variant="outlined" component="label" fullWidth startIcon={<UploadFileIcon />}
                                             sx={{
@@ -289,21 +289,21 @@ export const FamilyDetails = (props) => {
                 </Grid>
                 {/* חלק דינמי - פרטי אחים (שומר על ה-inputStyle שלך) */}
                 {details.siblings && details.siblings.map((sibling, index) => (
-                    <Grid item xs={12} key={index}>
+                    <Grid xs={12} key={index}>
                         <Paper variant="outlined" sx={{ p: 2, backgroundColor: '#f9f9f9', borderStyle: 'dashed' }}>
                             <Typography variant="subtitle2" sx={{ mb: 2, color: '#388E3C' }}>Sibling #{index + 1} Details</Typography>
                             <Grid container spacing={2}>
-                                <Grid item xs={12} sm={3}>
+                                <Grid xs={12} sm={3}>
                                     <TextField label="ID" size="small" fullWidth onBlur={(e) => updateSibling(index, 'id', e.target.value)} defaultValue={sibling.id} sx={inputStyle} />
                                 </Grid>
-                                <Grid item xs={12} sm={3}>
+                                <Grid xs={12} sm={3}>
                                     <TextField label="First Name" size="small" fullWidth onBlur={(e) => updateSibling(index, 'firstName', e.target.value)} defaultValue={sibling.firstName} sx={inputStyle} />
                                 </Grid>
-                                <Grid item xs={12} sm={3}>
+                                <Grid xs={12} sm={3}>
                                     <TextField label="Last Name" size="small" fullWidth onBlur={(e) => updateSibling(index, 'lastName', e.target.value)} defaultValue={sibling.lastName} sx={inputStyle} />
                                 </Grid>
-                                <Grid item xs={12} sm={3}>
-                                    <TextField label="Birth Date" type="date" size="small" fullWidth slotProps={{ inputLabel: { shrink: true } }} onBlur={(e) => updateSibling(index, 'birthDate', e.target.value)} defaultValue={sibling.birthDate} />
+                                <Grid xs={12} sm={3}>
+                                    <TextField label="Birth Date" type="date" size="small" fullWidth slotProps={{ inputLabel: { shrink: true } }} onBlur={(e) => updateSibling(index, 'birthDate', e.target.value)} defaultValue={sibling.birthDate} sx={inputStyle} />
                                 </Grid>
                             </Grid>
                         </Paper>

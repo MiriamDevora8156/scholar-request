@@ -1,6 +1,7 @@
 import Request from '../models/requestSchema.js';
 import fs from 'fs';
 import { sendStatusEmail } from '../services/emailService.js';
+import { requestSchema } from '../validations/requestValidation.js';
 import User from '../models/userSchema.js';
 import path from 'path';
 
@@ -22,6 +23,10 @@ export const submitRequest = async (req, res) => {
         personal.name = personal.name || req.user.name;
         personal.id = personal.id || req.user.id;
 
+        const { error } = requestSchema.validate({ personal, family, course, bank });
+        if (error) {
+            return res.status(400).json({ message: error.details[0].message });
+        }
         if (req.files) {
             if (req.files['idCardFile']) personal.idCardFile = req.files['idCardFile'][0].path;
             if (req.files['tuitionFile']) course.tuitionFile = req.files['tuitionFile'][0].path;
@@ -30,6 +35,7 @@ export const submitRequest = async (req, res) => {
             if (req.files['motherSlip']) family.motherSlip = req.files['motherSlip'][0].path;
         }
 
+        // 1. יצירת תיקיית final עבור המשתמש במידה ולא קיימת
         const userFinalDir = `uploads/${req.user._id}/final`;
         if (!fs.existsSync(userFinalDir)) {
             fs.mkdirSync(userFinalDir, { recursive: true });
@@ -37,31 +43,52 @@ export const submitRequest = async (req, res) => {
 
         const existingDraft = await Request.findOne({ userId: req.user._id, status: 'draft' });
 
-        const moveFile = (srcPath, fieldName) => {
-            if (srcPath && fs.existsSync(srcPath) && srcPath.includes('/draft/')) {
+        // 2. שמירת נתיבים ישנים מהטיוטה (רק אם לא הועלה קובץ חדש ב-req.files)
+        if (existingDraft) {
+            if (!req.files?.['idCardFile'] && existingDraft.personal?.idCardFile)
+                personal.idCardFile = existingDraft.personal.idCardFile;
+            if (!req.files?.['tuitionFile'] && existingDraft.course?.tuitionFile)
+                course.tuitionFile = existingDraft.course.tuitionFile;
+            if (!req.files?.['bankConfirmationFile'] && existingDraft.bank?.bankConfirmationFile)
+                bank.bankConfirmationFile = existingDraft.bank.bankConfirmationFile;
+            if (!req.files?.['fatherSlip'] && existingDraft.family?.fatherSlip)
+                family.fatherSlip = existingDraft.family.fatherSlip;
+            if (!req.files?.['motherSlip'] && existingDraft.family?.motherSlip)
+                family.motherSlip = existingDraft.family.motherSlip;
+        }
+
+        // 3. פונקציית העברה משופרת: תומכת בלוכסנים של ווינדוס ולינוקס כאחד
+        const moveFile = (srcPath) => {
+            if (!srcPath || !fs.existsSync(srcPath)) return srcPath;
+
+            // בדיקה גמישה שעובדת גם עם \ וגם עם /
+            const isDraft = srcPath.includes('draft') || srcPath.includes('/draft/') || srcPath.includes('\\draft\\');
+
+            if (isDraft) {
                 const fileName = path.basename(srcPath);
-                const destPath = `${userFinalDir}/${fileName}`;
-                fs.renameSync(srcPath, destPath);
-                return destPath;
+                const destPath = path.join(userFinalDir, fileName).replace(/\\/g, '/'); // שמירה תמידית עם לוכסן רגיל ב-DB
+
+                try {
+                    fs.renameSync(srcPath, destPath);
+                    return destPath;
+                } catch (err) {
+                    console.error(`Failed to move file ${srcPath}:`, err.message);
+                    return srcPath;
+                }
             }
             return srcPath;
         };
 
-        if (existingDraft) {
-            if (!req.files?.['idCardFile'] && existingDraft.personal?.idCardFile)
-                personal.idCardFile = moveFile(existingDraft.personal.idCardFile, 'idCardFile');
-            if (!req.files?.['tuitionFile'] && existingDraft.course?.tuitionFile)
-                course.tuitionFile = moveFile(existingDraft.course.tuitionFile, 'tuitionFile');
-            if (!req.files?.['bankConfirmationFile'] && existingDraft.bank?.bankConfirmationFile)
-                bank.bankConfirmationFile = moveFile(existingDraft.bank.bankConfirmationFile, 'bankConfirmationFile');
-            if (!req.files?.['fatherSlip'] && existingDraft.family?.fatherSlip)
-                family.fatherSlip = moveFile(existingDraft.family.fatherSlip, 'fatherSlip');
-            if (!req.files?.['motherSlip'] && existingDraft.family?.motherSlip)
-                family.motherSlip = moveFile(existingDraft.family.motherSlip, 'motherSlip');
-        }
+        // 4. העברה של כל הקבצים הסופיים (בין אם הגיעו מהטיוטה ובין אם הועלו עכשיו לטיוטה)
+        if (personal.idCardFile) personal.idCardFile = moveFile(personal.idCardFile);
+        if (course.tuitionFile) course.tuitionFile = moveFile(course.tuitionFile);
+        if (bank.bankConfirmationFile) bank.bankConfirmationFile = moveFile(bank.bankConfirmationFile);
+        if (family.fatherSlip) family.fatherSlip = moveFile(family.fatherSlip);
+        if (family.motherSlip) family.motherSlip = moveFile(family.motherSlip);
 
+        // 5. יצירת הבקשה החדשה ושמירתה בסטטוס waiting
         const newRequest = new Request({
-            userId: req.user._id, // ה-ID של המשתמש ב-DB (Mongo _id)
+            userId: req.user._id,
             personal,
             family: {
                 ...family,
@@ -73,6 +100,8 @@ export const submitRequest = async (req, res) => {
         });
 
         const savedRequest = await newRequest.save();
+
+        // שליחת מייל
         try {
             const user = await User.findById(req.user._id);
             if (user?.email) {
@@ -81,14 +110,26 @@ export const submitRequest = async (req, res) => {
         } catch (mailErr) {
             console.error('Email send failed:', mailErr.message);
         }
-        const userUploadDir = `uploads/${req.user._id}`;
+
+        // 6. מחיקת הטיוטה ממסד הנתונים
         await Request.deleteOne({ userId: req.user._id, status: 'draft' });
 
-        // מחיקת תיקיית הטיוטה
+        // 7. מחיקה בטוחה של תיקיית הטיוטה הפיזית רק אם היא ריקה או שאין בה קבצים נחוצים
         const draftDir = `uploads/${req.user._id}/draft`;
         if (fs.existsSync(draftDir)) {
-            fs.rmSync(draftDir, { recursive: true, force: true });
+            try {
+                // מחיקה רק אם כל הקבצים הרלוונטיים כבר מחוץ לטיוטה
+                const remainingFiles = fs.readdirSync(draftDir);
+                if (remainingFiles.length === 0) {
+                    fs.rmSync(draftDir, { recursive: true, force: true });
+                } else {
+                    console.log("Draft directory is not empty yet, skipping deletion to prevent data loss.");
+                }
+            } catch (dirErr) {
+                console.error("Error cleaning draft directory:", dirErr.message);
+            }
         }
+
         res.status(201).json(savedRequest);
     } catch (error) {
         console.error("SERVER CRASH:", error);
@@ -125,7 +166,7 @@ export const getPendingRequests = async (req, res) => {
         // סינון מספרים (ילדים ושכר)
         if (minSiblings) filter['family.numChildren'] = { $gte: Number(minSiblings) };
         if (minSalary || maxSalary) {
-            filter['course.payment'] = {}; // שינוי מ-family.income ל-course.payment
+            filter['course.payment'] = {};
             if (minSalary) filter['course.payment'].$gte = Number(minSalary);
             if (maxSalary) filter['course.payment'].$lte = Number(maxSalary);
         }
@@ -238,7 +279,6 @@ export const getMyStatus = async (req, res) => {
 export const getRequestById = async (req, res) => {
     try {
         const { id } = req.params;
-        console.log(id);
 
         // שליפת הבקשה ומילוי פרטי המשתמש (אם תרצי להציג שם/אימייל של המגיש)
         const request = await Request.findById(id)
@@ -373,9 +413,6 @@ export const saveDraftText = async (req, res) => {
 };
 
 export const getMyDraft = async (req, res) => {
-
-    console.log('getMyDraft');
-
     try {
         const request = await Request.findOne({
             userId: req.user._id,

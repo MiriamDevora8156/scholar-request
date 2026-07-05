@@ -1,16 +1,18 @@
 import { useSelector, useDispatch } from "react-redux"
 import { NavLink, useLocation } from "react-router-dom"
 import { Button, Typography, Box, AppBar, Toolbar, Avatar, Container } from "@mui/material"
-import HomeIcon from '@mui/icons-material/Home'
-import LoginIcon from '@mui/icons-material/Login'
-import InfoIcon from '@mui/icons-material/Info'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import PersonIcon from '@mui/icons-material/Person';
-import SchoolIcon from '@mui/icons-material/School';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import {
+    Home as HomeIcon,
+    Login as LoginIcon,
+    Logout as LogoutIcon,
+    Info as InfoIcon,
+    Visibility as VisibilityIcon,
+    Person as PersonIcon,
+    School as SchoolIcon,
+    Assignment as AssignmentIcon,
+} from '@mui/icons-material';
 import { logout as logoutAction } from '../Redux/userSlice'
 import API from '../api'
-import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import { setFilters, setFilterLocked } from '../Redux/requestSlice'
 
 export const Nav = () => {
@@ -124,7 +126,7 @@ export const Nav = () => {
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                             <Button
                                 onClick={handleLogout}
-                                startIcon={<ExitToAppIcon sx={{ fontSize: '1rem' }} />}
+                                startIcon={<LogoutIcon sx={{ fontSize: '1rem' }} />}
                                 sx={{
                                     color: '#aaa',
                                     textTransform: 'none',
@@ -136,8 +138,8 @@ export const Nav = () => {
                                     border: '1px solid #333',
                                     '&:hover': {
                                         backgroundColor: 'rgba(239,83,80,0.08)',
-                                        borderColor: '#50ef5d',
-                                        color: '#50ef5d'
+                                        borderColor: "#388E3C",
+                                        color: "#388E3C"
                                     },
                                     transition: 'all 0.2s ease'
                                 }}

@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-const transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({ // יצירת פרוטוקול לשליחת מיילים
     host: process.env.EMAIL_HOST || 'smtp.gmail.com', // משתמש ב-Mailtrap אם קיים, אחרת ב-Gmail
     port: process.env.EMAIL_PORT || 587,
     auth: {
@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendStatusEmail = async (toEmail, userName, status) => {
-    console.log(`נסיו שליחת מייל ל-${toEmail} עבור המשתמש ${userName} עם סטטוס ${status}`); // שורת בדיקה
+    console.log(`נסיון שליחת מייל ל-${toEmail} עבור המשתמש ${userName} עם סטטוס ${status}`); // שורת בדיקה
     const statusText = {
         waiting: 'Received and Under Review',
         allow: 'Approved ✅',
@@ -19,9 +19,9 @@ export const sendStatusEmail = async (toEmail, userName, status) => {
 
     // הגדרת צבעים לפי סטטוס
     const statusColors = {
-        'allow': '#e8f5e9',   // ירוק בהיר
-        'reject': '#ffebee',  // אדום בהיר
-        'waiting': '#fff3e0'  // כתום בהיר
+        'allow': '#e8f5e9',
+        'reject': '#ffebee',
+        'waiting': '#fff3e0'
     };
 
     const statusBorderColors = {

@@ -3,7 +3,6 @@ import swal from 'sweetalert'
 
 const initialState = {
     current: {},
-    manager: '040802001',
     isAuthChecked: false
 }
 
@@ -23,6 +22,5 @@ const userSlice = createSlice({
     }
 }
 )
-export const { add, setCurrent, logout, setAuthChecked } = userSlice.actions
+export const { setCurrent, logout, setAuthChecked } = userSlice.actions
 export default userSlice.reducer
-
